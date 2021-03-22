@@ -11,7 +11,7 @@ using namespace std;
 ariel::Board board;
 
 TEST_CASE("good post & read"){
-    // original post , simple test (4)
+    // original post , simple test (5)
     board.post(2,4,Direction::Horizontal ,"daniel");
     CHECK(board.read(2,4,Direction::Horizontal,6)=="daniel");
    
@@ -24,16 +24,28 @@ TEST_CASE("good post & read"){
     board.post(6,2,Direction::Vertical ,"daniel");
     CHECK(board.read(6,2,Direction::Vertical,6)=="daniel");
 
+    board.post(33,2,Direction::Vertical ,"_");
+    CHECK(board.read(33,2,Direction::Vertical,6)=="_");
+
     //do not exist (2)
     CHECK(board.read(45,99,Direction::Horizontal,1)=="_");
     CHECK(board.read(35,77,Direction::Vertical,1)=="_");
 
-    // change post and check that has changed (2)
+    // change post and check that has changed (4)
     board.post(2,4,Direction::Horizontal ,"left");
     CHECK(board.read(2,4,Direction::Horizontal,4)=="left");
 
     board.post(6,2,Direction::Vertical ,"sela");
     CHECK(board.read(6,2,Direction::Vertical,4)=="sela");
+
+
+    board.post(13,4,Direction::Horizontal ,"left");
+    board.post(13,4,Direction::Horizontal ,"xyft");
+    CHECK(board.read(13,4,Direction::Horizontal,4)=="xvft");
+
+    board.post(6,2,Direction::Vertical ,"sela");
+    board.post(6,2,Direction::Vertical ,"ala");
+    CHECK(board.read(6,2,Direction::Vertical,3)=="ala");
 
 }
 TEST_CASE("bad post & read"){
@@ -69,22 +81,4 @@ TEST_CASE("bad post & read"){
     board.post(99,99,Direction::Vertical ,"a");
     CHECK(board.read(99,99,Direction::Horizontal,1)=="a");
     
-}
-
-TEST_CASE("Invalid input"){ // (12)
-    CHECK_THROWS(board.post(-1,10,Direction::Vertical ,"as"));
-    CHECK_THROWS(board.post( 1,-10,Direction::Vertical ,"as"));
-    CHECK_THROWS(board.post(-1,1,Direction::Horizontal ,"a"));
-    CHECK_THROWS(board.post(1,-1,Direction::Horizontal ,"a"));
-    CHECK_THROWS(board.post( -1,-10,Direction::Vertical ,"as"));
-    CHECK_THROWS(board.post(-1,-1,Direction::Horizontal ,"a"));
-
-    CHECK_THROWS(board.read( 2,-1,Direction::Horizontal ,1));
-    CHECK_THROWS(board.read(-1,2,Direction::Horizontal ,1));
-    CHECK_THROWS(board.read( 2,-1,Direction::Vertical ,1));
-    CHECK_THROWS(board.read(-1,2,Direction::Vertical ,1));
-    
-    //len check
-    CHECK_THROWS(board.read(1,2,Direction::Horizontal ,-1));
-    CHECK_THROWS(board.read(1,2,Direction::Horizontal ,0));
 }

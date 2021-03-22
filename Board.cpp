@@ -12,11 +12,11 @@ using namespace std;
 namespace ariel{
     Board::Board(){}
     
-    string Board::read( int row, int column, Direction direction, int len){
+    string Board::read(unsigned int row,unsigned int column, Direction direction,unsigned int len){
         return "read";
     }
 
-    void Board::post( int row, int colum,Direction direction,string str){
+    void Board::post(unsigned int row,unsigned int colum,Direction direction,string str){
         cout<< "post" <<endl;
     }
 
